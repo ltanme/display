@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: display
+  labels:
+    app: display
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: display
+  template:
+    metadata:
+      labels:
+        app: display
+    spec:
+      containers:
+        - name : main
+          image: display
+          imagePullPolicy: Always
+

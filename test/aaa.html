@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Fullscreen Slideshow</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<style>
+		iframe {
+			border: none;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
+		}
+	</style>
+</head>
+<body>
+	<div id="slideshow-container"></div>
+	<script>
+		$(function() {
+			var slides = [
+				{ url: 'http://localhost:8199/characters/show', duration: 1000 },
+				{ url: 'http://localhost:8199/', duration: 5000 },
+				{ url: 'http://localhost:8199/login', duration: 2000 }
+			];
+			var currentIndex = 0;
+			
+			function showNextSlide() {
+				var slide = slides[currentIndex];
+				var $iframe = $('<iframe>').attr('src', slide.url).appendTo('#slideshow-container');
+				setTimeout(function() {
+					$iframe.remove();
+					currentIndex = (currentIndex + 1) % slides.length;
+					showNextSlide();
+				}, slide.duration);
+			}
+			
+			showNextSlide();
+		});
+	</script>
+</body>
+</html>

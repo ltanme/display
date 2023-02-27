@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>倒计时示例</title>
+    <style>
+      .countdown-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+      }
+      .countdown-text {
+        font-size: 20em;
+        color: #fff;
+        text-shadow: 1px 1px 5px #333;
+        text-align: center;
+      }
+      .countdown-subtext {
+        font-size: 5em;
+        color: #fff;
+        text-shadow: 1px 1px 5px #333;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="countdown-container">
+      <div class="countdown-subtext">距离考试时间还有</div>
+      <div class="countdown-text"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      // 设置考试时间
+      var examDate = new Date(2023, 4, 27);
+      
+      // 定时器每秒执行一次
+      var timer = setInterval(function() {
+        // 计算距离考试的天数
+        var now = new Date();
+        var days = Math.ceil((examDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+        
+        // 更新倒计时文本
+        $('.countdown-text').text(days);
+      }, 1000);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+<div class="row gf-list">
+    <div class="col-md-2 offset-md-1">
+        <div class="card gf-card">
+            <div class="card-header">管理中心</div>
+            <ul class="list-group list-group-flush">
+
+                <li class="list-group-item gf-list-item"><span class="icon iconfont">&#xe622;</span> <a
+                    href="/setting/index">设置中心</a></li>
+
+                <li class="list-group-item gf-list-item"><span class="icon iconfont">&#xe622;</span> <a
+                            href="/user/1">全部资料</a></li>
+              
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card gf-person">
+            <div class="card-header">
+                <span class="iconfont">&#xe61f;</span> 设置中心
+            </div>
+            <div class="card-body"> 
+                    <div class="form-group row">
+                        <label for="homepageUrl" class="col-sm-3 col-form-label required text-right">首页地址</label>
+                        <div class="col-sm-9">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" value="222222" id="homepageUrl" name="homepageUrl"
+                                    placeholder="请输入网址，如http://127.0.0.1/aaa.html" required>
+                                <div class="input-group-append">
+                                    <button type="submit" id="saveHomepageUrl" class="btn btn-primary btn-block">保存</button>
+                                </div>
+                            </div> 
+                        </div>
+                    </div> 
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    jQuery(function ($) {
+        $("#saveHomepageUrl").click(function(){
+             homepageUrl = $("#homepageUrl").val()
+             if (homepageUrl!="") {
+                jQuery.ajax({
+                    type: 'POST',
+                    url : '/setting/save',
+                    data: {
+                        v: homepageUrl,
+                        k:"homepageUrl"
+                    },
+                    sync: true,
+                    success: function (data) {
+                        alert("保存成功")
+                    }
+                });
+            }
+        })
+    });
+</script>

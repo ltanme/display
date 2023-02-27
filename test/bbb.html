@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>3 Column Fullscreen Layout</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+		}
+
+		.container {
+			display: flex;
+			flex-wrap: wrap;
+			height: 100vh;
+		}
+
+		.col {
+			flex-basis: 33.33%;
+			height: 100%;
+			padding: 20px;
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.col-1 {
+			background-color: #f2f2f2;
+		}
+
+		.col-2 {
+			background-color: #d9d9d9;
+		}
+
+		.col-3 {
+			background-color: #bfbfbf;
+		}
+
+		.col-content {
+			display: grid;
+			grid-template-columns: repeat(5, 1fr);
+			grid-template-rows: repeat(3, 1fr);
+			grid-gap: 10px;
+			background-color: white;
+			padding: 20px;
+			box-sizing: border-box;
+			text-align: center;
+			border-radius: 5px;
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+		}
+
+		.col-title {
+			font-size: 24px;
+			font-weight: bold;
+			margin-bottom: 10px;
+		}
+
+		.col-description {
+			font-size: 16px;
+			margin-bottom: 20px;
+		}
+
+		.col-item {
+			background-color: #f2f2f2;
+			border-radius: 5px;
+			box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+			padding: 10px;
+			box-sizing: border-box;
+			text-align: center;
+			font-size: 16px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="col col-1">
+			<div class="col-title">Column 1</div>
+				<div class="col-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+			<div class="col-content"> 
+				<div class="col-item">Item 1</div>
+			 
+			</div>
+		</div>
+		<div class="col col-2">
+			<div class="col-title">Column 2</div>
+			<div class="col-description">Nullam facilisis libero ac nisi luctus.</div>
+			<div class="col-content"> 
+				<div class="col-item">Item 1</div>  
+			</div>
+		</div>
+		<div class="col col-3">
+			<div class="col-title">Column 3</div>
+			<div class="col-description">Suspendisse potenti. Suspendisse non velit non tortor.</div>
+			<div class="col-content">
+				<div class="col-item">Item 1</div> 
+			</div>
+		</div>
+	</div>
+</body>
+</html>
