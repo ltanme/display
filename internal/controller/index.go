@@ -2,10 +2,15 @@ package controller
 
 import (
 	"context"
+	"fmt"
+	"io/ioutil"
+	"net/http"
 
 	v1 "display/api/v1"
 	"display/internal/model"
 	"display/internal/service"
+
+	"github.com/gogf/gf/encoding/gjson"
 )
 
 // 首页接口
@@ -33,6 +38,7 @@ func (a *cIndex) Index(ctx context.Context, req *v1.IndexReq) (res *v1.IndexRes,
 }
 
 func (a *cIndex) Display(ctx context.Context, req *v1.DisplayReq) (res *v1.DisplayRes, err error) {
+
 	service.View().Render(ctx, model.View{
 		ContentType: "",
 		Data:        "",
@@ -42,10 +48,38 @@ func (a *cIndex) Display(ctx context.Context, req *v1.DisplayReq) (res *v1.Displ
 }
 
 func (a *cIndex) Clock(ctx context.Context, req *v1.ClockReq) (res *v1.ClockRes, err error) {
+
 	service.View().Render(ctx, model.View{
 		ContentType: "",
-		Data:        "",
+		Data:        GetCurrentDate(),
 		Title:       "",
 	})
 	return
+}
+
+//返回当前天时间
+func GetCurrentDate() string {
+	// 初始化全局变量
+	var timestamp string
+	resp, err := http.Get("http://api.m.taobao.com/rest/api3.do?api=mtop.common.getTimestamp")
+	if err != nil {
+		fmt.Println(err)
+		return "1677675248035"
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+		return "1677675248035"
+	}
+
+	// 解析json获取t字段
+	j, err := gjson.DecodeToJson(string(body))
+
+	if err != nil {
+		fmt.Println(err)
+		return "1677675248035"
+	}
+	timestamp = j.GetString("data.t")
+	return timestamp
 }

@@ -49,7 +49,7 @@
       var timer = setInterval(function() {
         // 计算距离考试的天数
         var now = new Date();
-        var days = Math.ceil((examDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+        var days = Math.ceil((examDate.getTime() - {{.Data}}) / (1000 * 60 * 60 * 24));
         var str  = "<span style='font-size:0.3em'>天</span>"
         // 更新倒计时文本
         $('.countdown-text').html(days + str);
