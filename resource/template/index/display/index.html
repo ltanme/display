@@ -30,39 +30,45 @@
 	<div id="slideshow-container"></div>
 	<script>
 		$(function() {
+			// var slides = [
+			// 	{ url: 'http://localhost:81/clock' },
+			// 	{ url: 'http://localhost:81/characters/show?page=1' },
+      //   { url: 'http://localhost:81/clock' },
+			// 	{ url: 'http://localhost:81/characters/show?page=2' },
+      //   { url: 'http://localhost:81/clock' },
+			// 	{ url: 'http://localhost:81/characters/show?page=3' },
+      //   { url: 'http://localhost:81/clock' },
+			// 	{ url: 'http://localhost:81/characters/show?page=4' }
+			// ];
 			var slides = [
-				{ url: 'http://127.0.0.1:81/clock' },
-				{ url: 'http://127.0.0.1:81/characters/show?page=1' },
-        { url: 'http://127.0.0.1:81/clock' },
-				{ url: 'http://127.0.0.1:81/characters/show?page=2' },
-        { url: 'http://127.0.0.1:81/clock' },
-				{ url: 'http://127.0.0.1:81/characters/show?page=3' },
-        { url: 'http://127.0.0.1:81/clock' },
-				{ url: 'http://127.0.0.1:81/characters/show?page=4' }
-			];
+			    {url:'http://localhost:81/video'}
+			]
 			var currentIndex = 0;
 			
 			function showNextSlide() {
 				var slide = slides[currentIndex];
-				var $iframe = $('<iframe>').attr('src', slide.url).appendTo('#slideshow-container');
-				var $countdown = $('<div>').attr('id', 'countdown').appendTo('body');
-				var remainingTime = 0;
-				var countdownInterval = null;
-				$iframe.on('load', function() {
-					remainingTime = $iframe[0].contentWindow.slideDuration;
-					$countdown.text(remainingTime);
-					countdownInterval = setInterval(function() {
-						remainingTime--;
+				// if(slide.length>1){
+					var $iframe = $('<iframe>').attr('src', slide.url).appendTo('#slideshow-container');
+					var $countdown = $('<div>').attr('id', 'countdown').appendTo('body');
+					var remainingTime = 0;
+					var countdownInterval = null;
+					$iframe.on('load', function() {
+						remainingTime = $iframe[0].contentWindow.slideDuration;
 						$countdown.text(remainingTime);
-						if (remainingTime <= 0) {
-							clearInterval(countdownInterval);
-							$iframe.remove();
-							$countdown.remove();
-							currentIndex = (currentIndex + 1) % slides.length;
-							showNextSlide();
-						}
-					}, 1000);
-				});
+						countdownInterval = setInterval(function() {
+							remainingTime--;
+							$countdown.text(remainingTime);
+							if (remainingTime <= 0) {
+								clearInterval(countdownInterval);
+								$iframe.remove();
+								$countdown.remove();
+								currentIndex = (currentIndex + 1) % slides.length;
+								showNextSlide();
+							}
+						}, 1000);
+					});
+			 
+				
 			}
 			
 			showNextSlide();

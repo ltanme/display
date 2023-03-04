@@ -23,3 +23,9 @@ type ClockReq struct {
 }
 type ClockRes struct {
 }
+
+type VideoReq struct {
+	g.Meta `path:"/video" method:"get" tags:"视频播放" summary:"视频播放"`
+}
+type VideoRes struct {
+}

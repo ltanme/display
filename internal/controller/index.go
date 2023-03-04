@@ -57,6 +57,17 @@ func (a *cIndex) Clock(ctx context.Context, req *v1.ClockReq) (res *v1.ClockRes,
 	return
 }
 
+//视频播放页
+func (a *cIndex) Video(ctx context.Context, req *v1.VideoReq) (res *v1.VideoRes, err error) {
+
+	service.View().Render(ctx, model.View{
+		ContentType: "",
+		Data:        "",
+		Title:       "",
+	})
+	return
+}
+
 //返回当前天时间
 func GetCurrentDate() string {
 	// 初始化全局变量
