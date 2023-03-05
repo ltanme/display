@@ -5,8 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"os"
 	"regexp"
 	"strconv"
 	"strings"
@@ -16,6 +14,7 @@ import (
 	"display/internal/model"
 	"display/internal/service"
 
+	"github.com/gogf/gf/os/gfile"
 	"github.com/gogf/gf/v2/frame/g"
 )
 
@@ -63,16 +62,9 @@ func getSvg(ctx context.Context, ch string) string {
 	fontN := decUnicode(ch)
 
 	filepath := g.Cfg().MustGet(ctx, "characters.svgsZhHans").String() + strconv.Itoa(fontN) + ".svg"
-
-	if _, err := os.Stat(filepath); !os.IsNotExist(err) {
-		// path/to/whatever exists
-		data, err := ioutil.ReadFile(filepath)
-		if err != nil {
-			fmt.Println(err)
-			return svgstr
-		}
-		svgstr = string(data)
-	}
+	// path/to/whatever exists
+	data := gfile.GetContents(filepath)
+	svgstr = string(data)
 	return svgstr
 }
 
@@ -80,11 +72,7 @@ func getSvg(ctx context.Context, ch string) string {
 func readDictionarayZhans(ctx context.Context, c string) ([]string, int) {
 
 	path := g.Cfg().MustGet(ctx, "characters.dictionaryZhHans").String()
-
-	data, err := ioutil.ReadFile(path)
-	if err != nil {
-		return []string{}, 0
-	}
+	data := gfile.GetContents(path)
 	s := string(data)
 	r := regexp.MustCompile(`\{"character":"` + string(c) + `[^}]+\}`)
 	match := r.FindString(s)

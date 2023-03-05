@@ -7,7 +7,7 @@
     <script src="/plugin/jquery/jquery.min.js"></script>
     <script src="/plugin/video-js/video.js"></script>
 
-    <style>
+<style>
       .container {
   display: flex;
   height: 100vh;
@@ -72,19 +72,20 @@
   <div class="container">
     <div class="left-column">
       <div class="player">
-        <h1 class="title">英语听力练习视频</h1>
+        <h3 class="title">英语听力练习视频</h3>
         <video id="my-video" class="video-js vjs-big-play-centered" autoplay></video>
       </div>
     </div>
     <div class="right-column">
       <h2 class="playlist-title">今日播放列表</h2>
       <ul class="playlist">
-        <li class="playlist-item active"><a href="http://192.168.100.193:9090/api/raw/%E5%8A%A8%E7%94%BB%E7%89%87/03%20-%20Polly%20Parrot%20%5BSTEiNO%5D.mp4?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJsb2NhbGUiOiJ6aC1jbiIsInZpZXdNb2RlIjoibW9zYWljIiwic2luZ2xlQ2xpY2siOmZhbHNlLCJwZXJtIjp7ImFkbWluIjp0cnVlLCJleGVjdXRlIjp0cnVlLCJjcmVhdGUiOnRydWUsInJlbmFtZSI6dHJ1ZSwibW9kaWZ5Ijp0cnVlLCJkZWxldGUiOnRydWUsInNoYXJlIjp0cnVlLCJkb3dubG9hZCI6dHJ1ZX0sImNvbW1hbmRzIjpbXSwibG9ja1Bhc3N3b3JkIjpmYWxzZSwiaGlkZURvdGZpbGVzIjpmYWxzZSwiZGF0ZUZvcm1hdCI6ZmFsc2V9LCJpc3MiOiJGaWxlIEJyb3dzZXIiLCJleHAiOjE2Nzc5NDU0ODIsImlhdCI6MTY3NzkzODI4Mn0.N2-Q23tEE6QIsYzggsuSV5DraxnIchwhR2EVSAj90dk&inline=true">03 - Polly Parrot [STEiNO]</a></li>
-        <li class="playlist-item"><a href="http://192.168.100.193:9090/api/raw/%E5%8A%A8%E7%94%BB%E7%89%87/02%20-%20Mr%20Dinosaur%20is%20Lost%20%5BSTEiNO%5D.mp4?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJsb2NhbGUiOiJ6aC1jbiIsInZpZXdNb2RlIjoibW9zYWljIiwic2luZ2xlQ2xpY2siOmZhbHNlLCJwZXJtIjp7ImFkbWluIjp0cnVlLCJleGVjdXRlIjp0cnVlLCJjcmVhdGUiOnRydWUsInJlbmFtZSI6dHJ1ZSwibW9kaWZ5Ijp0cnVlLCJkZWxldGUiOnRydWUsInNoYXJlIjp0cnVlLCJkb3dubG9hZCI6dHJ1ZX0sImNvbW1hbmRzIjpbXSwibG9ja1Bhc3N3b3JkIjpmYWxzZSwiaGlkZURvdGZpbGVzIjpmYWxzZSwiZGF0ZUZvcm1hdCI6ZmFsc2V9LCJpc3MiOiJGaWxlIEJyb3dzZXIiLCJleHAiOjE2Nzc5NDU0ODIsImlhdCI6MTY3NzkzODI4Mn0.N2-Q23tEE6QIsYzggsuSV5DraxnIchwhR2EVSAj90dk&inline=true">02 - Mr Dinosaur is Lost [STEiNO]</a></li>
-        <li class="playlist-item"><a href="http://192.168.100.193:9090/api/raw/%E5%8A%A8%E7%94%BB%E7%89%87/04%20-%20Best%20Friend%20%5BSTEiNO%5D.mp4?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJsb2NhbGUiOiJ6aC1jbiIsInZpZXdNb2RlIjoibW9zYWljIiwic2luZ2xlQ2xpY2siOmZhbHNlLCJwZXJtIjp7ImFkbWluIjp0cnVlLCJleGVjdXRlIjp0cnVlLCJjcmVhdGUiOnRydWUsInJlbmFtZSI6dHJ1ZSwibW9kaWZ5Ijp0cnVlLCJkZWxldGUiOnRydWUsInNoYXJlIjp0cnVlLCJkb3dubG9hZCI6dHJ1ZX0sImNvbW1hbmRzIjpbXSwibG9ja1Bhc3N3b3JkIjpmYWxzZSwiaGlkZURvdGZpbGVzIjpmYWxzZSwiZGF0ZUZvcm1hdCI6ZmFsc2V9LCJpc3MiOiJGaWxlIEJyb3dzZXIiLCJleHAiOjE2Nzc5NDU0ODIsImlhdCI6MTY3NzkzODI4Mn0.N2-Q23tEE6QIsYzggsuSV5DraxnIchwhR2EVSAj90dk&inline=true">04 - Best Friend [STEiNO]</a></li>
-        <li class="playlist-item"><a href="http://192.168.100.193:9090/api/raw/%E5%8A%A8%E7%94%BB%E7%89%87/05%20-%20Hide%20%26%20Seek%20%5BSTEiNO%5D.mp4?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJsb2NhbGUiOiJ6aC1jbiIsInZpZXdNb2RlIjoibW9zYWljIiwic2luZ2xlQ2xpY2siOmZhbHNlLCJwZXJtIjp7ImFkbWluIjp0cnVlLCJleGVjdXRlIjp0cnVlLCJjcmVhdGUiOnRydWUsInJlbmFtZSI6dHJ1ZSwibW9kaWZ5Ijp0cnVlLCJkZWxldGUiOnRydWUsInNoYXJlIjp0cnVlLCJkb3dubG9hZCI6dHJ1ZX0sImNvbW1hbmRzIjpbXSwibG9ja1Bhc3N3b3JkIjpmYWxzZSwiaGlkZURvdGZpbGVzIjpmYWxzZSwiZGF0ZUZvcm1hdCI6ZmFsc2V9LCJpc3MiOiJGaWxlIEJyb3dzZXIiLCJleHAiOjE2Nzc5NDU0ODIsImlhdCI6MTY3NzkzODI4Mn0.N2-Q23tEE6QIsYzggsuSV5DraxnIchwhR2EVSAj90dk&inline=true">05 - Hide & Seek [STEiNO]</a></li>
-        <li class="playlist-item"><a href="http://192.168.100.193:9090/api/raw/%E5%8A%A8%E7%94%BB%E7%89%87/06%20-%20The%20Playgroup%20%5BSTEiNO%5D.mp4?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJsb2NhbGUiOiJ6aC1jbiIsInZpZXdNb2RlIjoibW9zYWljIiwic2luZ2xlQ2xpY2siOmZhbHNlLCJwZXJtIjp7ImFkbWluIjp0cnVlLCJleGVjdXRlIjp0cnVlLCJjcmVhdGUiOnRydWUsInJlbmFtZSI6dHJ1ZSwibW9kaWZ5Ijp0cnVlLCJkZWxldGUiOnRydWUsInNoYXJlIjp0cnVlLCJkb3dubG9hZCI6dHJ1ZX0sImNvbW1hbmRzIjpbXSwibG9ja1Bhc3N3b3JkIjpmYWxzZSwiaGlkZURvdGZpbGVzIjpmYWxzZSwiZGF0ZUZvcm1hdCI6ZmFsc2V9LCJpc3MiOiJGaWxlIEJyb3dzZXIiLCJleHAiOjE2Nzc5NDU0ODIsImlhdCI6MTY3NzkzODI4Mn0.N2-Q23tEE6QIsYzggsuSV5DraxnIchwhR2EVSAj90dk&inline=true">06 - The Playgroup [STEiNO]]</a></li>
-        <li class="playlist-item"><a href="http://192.168.100.193:9090/api/raw/%E5%8A%A8%E7%94%BB%E7%89%87/07%20-%20Mummy%20Pig%20at%20Work%20%5BSTEiNO%5D.mp4?auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJsb2NhbGUiOiJ6aC1jbiIsInZpZXdNb2RlIjoibW9zYWljIiwic2luZ2xlQ2xpY2siOmZhbHNlLCJwZXJtIjp7ImFkbWluIjp0cnVlLCJleGVjdXRlIjp0cnVlLCJjcmVhdGUiOnRydWUsInJlbmFtZSI6dHJ1ZSwibW9kaWZ5Ijp0cnVlLCJkZWxldGUiOnRydWUsInNoYXJlIjp0cnVlLCJkb3dubG9hZCI6dHJ1ZX0sImNvbW1hbmRzIjpbXSwibG9ja1Bhc3N3b3JkIjpmYWxzZSwiaGlkZURvdGZpbGVzIjpmYWxzZSwiZGF0ZUZvcm1hdCI6ZmFsc2V9LCJpc3MiOiJGaWxlIEJyb3dzZXIiLCJleHAiOjE2Nzc5NDU0ODIsImlhdCI6MTY3NzkzODI4Mn0.N2-Q23tEE6QIsYzggsuSV5DraxnIchwhR2EVSAj90dk&inline=true">07 - Mummy Pig at Work [STEiNO]</a></li>
+        <li class="playlist-item active"><a href="http://192.168.100.193/3.mp4">03 - Polly Parrot [STEiNO]</a></li>
+        <li class="playlist-item"><a href="http://192.168.100.193/1.mp4">01 - Muddy Puddles [STEiNO]</a></li>
+        <li class="playlist-item"><a href="http://192.168.100.193/2.mp4">02 - Mr Dinosaur is Lost [STEiNO]</a></li>
+        <li class="playlist-item"><a href="http://192.168.100.193/4.mp4">04 - Best Friend [STEiNO]</a></li>
+        <li class="playlist-item"><a href="http://192.168.100.193/5.mp4">05 - Hide & Seek [STEiNO]</a></li>
+        <li class="playlist-item"><a href="http://192.168.100.193/6.mp4">06 - The Playgroup [STEiNO]]</a></li>
+        <li class="playlist-item"><a href="http://192.168.100.193/7.mp4">07 - Mummy Pig at Work [STEiNO]</a></li>
       </ul>
     </div>
   </div>
