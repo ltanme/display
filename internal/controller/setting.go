@@ -2,15 +2,12 @@ package controller
 
 import (
 	"context"
-	"fmt"
 
 	v1 "display/api/v1"
 	"display/internal/dao"
 	"display/internal/model"
-	"display/internal/model/entity"
 	"display/internal/service"
 
-	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/frame/g"
 )
 
@@ -20,38 +17,51 @@ var Setting = cSetting{}
 type cSetting struct{}
 
 func (a *cSetting) Index(ctx context.Context, req *v1.SettingIndexReq) (res *v1.SettingIndexRes, err error) {
-
+	HomepageUrl, _ := service.Setting().GetVar(ctx, "HomepageUrl")
+	ExamDate, _ := service.Setting().GetVar(ctx, "ExamDate")
+	Playlist, _ := service.Setting().GetVar(ctx, "Playlist")
+	m := g.Map{"HomepageUrl": HomepageUrl, "ExamDate": ExamDate, "Playlist": Playlist}
 	service.View().Render(ctx, model.View{
 		ContentType: "",
-		Data:        "getListRes",
+		Data:        m,
 	})
 	return
 }
 
 func (a *cSetting) Save(ctx context.Context, req *v1.SettingSaveReq) (res *v1.SettingSaveRes, err error) {
-	// g.Log().Info(ctx, req)
-	err2 := service.Setting().Set(ctx, req.K, string(req.V))
-	fmt.Println(err2)
-	// aa := service.Setting().Set(ctx, string(req.K), string(req.V))
-	// fmt.Println(aa)
 
-	// service.Setting().GetVar("homepageUrl")
+	if req.K == "HomepageUrl" {
+		v, _ := service.Setting().GetVar(ctx, "HomepageUrl")
+		if !v.IsNil() {
+			//更新
+			dao.Setting.Ctx(ctx).Data(req).Where("k", req.K).Update()
+		} else {
+			//插入
+			dao.Setting.Ctx(ctx).Data(req).OmitEmpty().Insert()
+		}
+	}
 
-	r, err := dao.Setting.SettingDao.DB().Save(ctx, "gf_setting", gdb.Map{
-		"k": "1111",
-		"v": "3333",
-	})
+	if req.K == "ExamDate" {
+		v, _ := service.Setting().GetVar(ctx, "ExamDate")
+		if !v.IsNil() {
+			//更新
+			dao.Setting.Ctx(ctx).Data(req).Where("k", req.K).Update()
+		} else {
+			//插入
+			dao.Setting.Ctx(ctx).Data(req).OmitEmpty().Insert()
+		}
+	}
 
-	fmt.Println(r)
+	if req.K == "Playlist" {
+		v, _ := service.Setting().GetVar(ctx, "Playlist")
+		if !v.IsNil() {
+			//更新
+			dao.Setting.Ctx(ctx).Data(req).Where("k", req.K).Update()
+		} else {
+			//插入
+			dao.Setting.Ctx(ctx).Data(req).OmitEmpty().Insert()
+		}
+	}
 
-	dao.Setting.Ctx(ctx).Data(entity.Setting{
-		K: "HomepageUrl",
-		V: "33333333333333333333",
-	}).Save()
-
-	g.Log().Info(ctx, req.K, req.V)
-	// v, err := service.Setting().GetVar(ctx, "abcd")
-
-	g.Log().Info(ctx, "查到v值", 0)
 	return
 }

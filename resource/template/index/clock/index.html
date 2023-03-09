@@ -29,6 +29,13 @@
         text-shadow: 1px 1px 5px #333;
         text-align: center;
       }
+
+      .countdown-subtext-1 {
+        font-size: 2em;
+        color: #fff;
+        text-shadow: 1px 1px 5px #333;
+        text-align: center;
+      }
     </style>
     <script>
       // 定义停留时间
@@ -37,6 +44,7 @@
   </head>
   <body>
     <div class="countdown-container">
+      <div class="countdown-subtext-1">{{.Data.Year}}年{{.Data.Month}}月{{.Data.Day}}日，lunar day{{.Data.LunarMonth}}-{{.Data.LunarDay}},{{.Data.Weekday}}</div>
       <div class="countdown-subtext">距离考试时间还有</div>
       <div class="countdown-text"></div>
     </div>
@@ -49,10 +57,10 @@
       var timer = setInterval(function() {
         // 计算距离考试的天数
         var now = new Date();
-        var days = Math.ceil((examDate.getTime() - {{.Data}}) / (1000 * 60 * 60 * 24));
-        var str  = "<span style='font-size:0.3em'>天</span>"
+        var days = Math.ceil((examDate.getTime() - {{.Data.Timestampms}}) / (1000 * 60 * 60 * 24));
+     
         // 更新倒计时文本
-        $('.countdown-text').html(days + str);
+        $('.countdown-text').html(days);
       }, 1000);
     </script>
   </body>

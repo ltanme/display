@@ -31,10 +31,6 @@
   align-items: center;
 }
 
-.title {
-  margin-bottom: 20px;
-}
-
 #my-video {
   width: 80%;
   margin-left: auto;
@@ -72,20 +68,19 @@
   <div class="container">
     <div class="left-column">
       <div class="player">
-        <h3 class="title">英语听力练习视频</h3>
+        <div class="title">{{.Data.CurrentDate.Year}}年{{.Data.CurrentDate.Month}}月{{.Data.CurrentDate.Day}}日,{{.Data.CurrentDate.Weekday}}
+          距离考试还有<span class="countdown-text" style="font-size: 2em;color: red;">{{.Data.DaysLeft}}</span>天
+        </div>
+        <h1 class="title">英语听力练习视频</h1>
         <video id="my-video" class="video-js vjs-big-play-centered" autoplay></video>
       </div>
     </div>
     <div class="right-column">
       <h2 class="playlist-title">今日播放列表</h2>
       <ul class="playlist">
-        <li class="playlist-item active"><a href="http://192.168.100.193/3.mp4">03 - Polly Parrot [STEiNO]</a></li>
-        <li class="playlist-item"><a href="http://192.168.100.193/1.mp4">01 - Muddy Puddles [STEiNO]</a></li>
-        <li class="playlist-item"><a href="http://192.168.100.193/2.mp4">02 - Mr Dinosaur is Lost [STEiNO]</a></li>
-        <li class="playlist-item"><a href="http://192.168.100.193/4.mp4">04 - Best Friend [STEiNO]</a></li>
-        <li class="playlist-item"><a href="http://192.168.100.193/5.mp4">05 - Hide & Seek [STEiNO]</a></li>
-        <li class="playlist-item"><a href="http://192.168.100.193/6.mp4">06 - The Playgroup [STEiNO]]</a></li>
-        <li class="playlist-item"><a href="http://192.168.100.193/7.mp4">07 - Mummy Pig at Work [STEiNO]</a></li>
+        {{range $index, $item := .Data.Playlist}}
+             <li class="playlist-item  {{if eq $index 1}}active{{end}}"><a href="{{$item.Url}}">{{$item.Title}}</a></li>
+        {{end}}
       </ul>
     </div>
   </div>
@@ -121,7 +116,7 @@
 // 动态设置 A 栏和 B 栏的高度
 var screenHeight = $(window).height();
   $('.left-column, .right-column').css('height', screenHeight + 'px');
-  
+
 </script>
 </body>
 </html>

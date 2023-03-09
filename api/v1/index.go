@@ -29,3 +29,21 @@ type VideoReq struct {
 }
 type VideoRes struct {
 }
+
+type CurrentDate struct {
+	Day         int
+	Hour        int
+	LunarDay    int
+	LunarMonth  int
+	LunarYear   int
+	Minute      int
+	Month       int
+	Timestampms string
+	Weekday     string
+	Year        int
+}
+
+type PlaylistData struct {
+	Url   string
+	Title string
+}

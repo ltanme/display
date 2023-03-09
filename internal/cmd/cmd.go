@@ -2,11 +2,21 @@ package cmd
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"strconv"
 	"strings"
+	"time"
 
 	"display/internal/controller"
+	"display/internal/dao"
 	"display/internal/service"
 
+	"github.com/6tail/lunar-go/calendar"
+	"github.com/gogf/gf/encoding/gjson"
+	"github.com/gogf/gf/os/gcron"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/net/goai"
@@ -43,6 +53,24 @@ var (
 
 			g.View().SetConfigWithMap(g.Map{
 				"paths": g.Slice{"/resource/template"},
+			})
+
+			gcron.AddSingleton("0 0/5 * * * *", func() {
+				ms := GetCurrentDate()
+				s2 := saveCurrentDate(ms)
+				v, _ := service.Setting().GetVar(ctx, "CurrentDate")
+				if !v.IsNil() {
+					//更新
+					dao.Setting.Ctx(ctx).Data(g.Map{
+						"v": s2,
+					}).Where("k", "CurrentDate").Update()
+				} else {
+					//插入
+					dao.Setting.Ctx(ctx).Data(g.Map{
+						"k": "CurrentDate",
+						"v": s2,
+					}).OmitEmpty().Insert()
+				}
 			})
 
 			// 注册模板函数
@@ -152,4 +180,70 @@ func enhanceOpenAPIDoc(s *ghttp.Server) {
 		{Name: consts.OpenAPITagNameUser},
 		{Name: consts.OpenAPITagNameMess},
 	}
+}
+
+//返回当前天时间
+func GetCurrentDate() string {
+	// 初始化全局变量
+	var timestamp string
+	resp, err := http.Get("http://api.m.taobao.com/rest/api3.do?api=mtop.common.getTimestamp")
+	if err != nil {
+		fmt.Println(err)
+		return "1677675248035"
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+		return "1677675248035"
+	}
+
+	// 解析json获取t字段
+	j, err := gjson.DecodeToJson(string(body))
+
+	if err != nil {
+		fmt.Println(err)
+		return "1677675248035"
+	}
+	timestamp = j.GetString("data.t")
+	return timestamp
+}
+
+func saveCurrentDate(timestamp string) string {
+
+	ms, _ := strconv.ParseInt(timestamp, 10, 64)
+
+	// 将毫秒数转换为UTC时间
+	t := time.Unix(ms/1000, (ms%1000)*int64(time.Millisecond))
+
+	// 获取年、月、日、时、分
+	year, month, day := t.Date()
+	hour, min, _ := t.Clock()
+
+	// 获取农历日期
+	lunarDate := calendar.NewLunarFromYmd(year, int(month), day)
+	lunarYear, lunarMonth, lunarDay := lunarDate.GetYear(), lunarDate.GetMonth(), lunarDate.GetDay()
+
+	// 获取星期
+	weekday := t.Weekday().String()
+
+	// 将结果转换为JSON格式并输出
+	result := map[string]interface{}{
+		"year":        year,
+		"month":       int(month),
+		"day":         day,
+		"hour":        hour,
+		"minute":      min,
+		"lunarYear":   lunarYear,
+		"lunarMonth":  lunarMonth,
+		"lunarDay":    lunarDay,
+		"weekday":     weekday,
+		"timestampms": timestamp,
+	}
+
+	jsonResult, err := json.Marshal(result)
+	if err != nil {
+		panic(err)
+	}
+	return string(jsonResult)
 }

@@ -2,43 +2,16 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
-	"net/http"
-	"strconv"
 	"time"
-
-	"github.com/gogf/gf/encoding/gjson"
 )
 
 func main() {
-	// 初始化全局变量
-	var timestamp string
+	examDateStr := "2023-5-25"
+	examDate, _ := time.Parse("2006-1-2", examDateStr) // 将考试日期字符串解析为 time.Time 类型
 
-	resp, err := http.Get("http://api.m.taobao.com/rest/api3.do?api=mtop.common.getTimestamp")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	currentTime := time.Unix(0, 1678348565301*int64(time.Millisecond)) // 将当前时间戳转换为 time.Time 类型
 
-	// 解析json获取t字段
-	j, err := gjson.DecodeToJson(string(body))
+	daysLeft := int(examDate.Sub(currentTime).Hours() / 24) // 计算距离考试还有几天
 
-	// 将t字段转换为时间格式
-	tm, err := strconv.ParseInt(j.GetString("data.t"), 10, 64)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	timestamp = time.Unix(0, tm*int64(time.Millisecond)).Format("2006-01-02 15:04:05")
-
-	fmt.Println(timestamp)
-
-	// 阻塞主线程
-	select {}
+	fmt.Printf("距离考试还有 %d 天\n", daysLeft)
 }

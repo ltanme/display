@@ -2,15 +2,17 @@ package controller
 
 import (
 	"context"
-	"fmt"
-	"io/ioutil"
-	"net/http"
+	"encoding/json"
+	"strconv"
+	"strings"
+	"time"
 
 	v1 "display/api/v1"
 	"display/internal/model"
 	"display/internal/service"
 
-	"github.com/gogf/gf/encoding/gjson"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/text/gstr"
 )
 
 // 首页接口
@@ -38,10 +40,19 @@ func (a *cIndex) Index(ctx context.Context, req *v1.IndexReq) (res *v1.IndexRes,
 }
 
 func (a *cIndex) Display(ctx context.Context, req *v1.DisplayReq) (res *v1.DisplayRes, err error) {
-
+	v, _ := service.Setting().GetVar(ctx, "HomepageUrl")
+	s := g.NewVar(v).String()
+	s2 := []string{"http://localhost" + g.Cfg().MustGet(ctx, "server.address").String() + "/clock"}
+	s3 := make(map[string][]string)
+	if v != nil && gstr.Contains(s, ",") {
+		s2 = strings.Split(s, ",")
+	} else if v != nil {
+		s2 = []string{s}
+	}
+	s3["HomepageUrl"] = s2
 	service.View().Render(ctx, model.View{
 		ContentType: "",
-		Data:        "",
+		Data:        s3,
 		Title:       "",
 	})
 	return
@@ -49,9 +60,15 @@ func (a *cIndex) Display(ctx context.Context, req *v1.DisplayReq) (res *v1.Displ
 
 func (a *cIndex) Clock(ctx context.Context, req *v1.ClockReq) (res *v1.ClockRes, err error) {
 
+	v, _ := service.Setting().GetVar(ctx, "CurrentDate")
+
+	var date2 *v1.CurrentDate
+
+	json.Unmarshal([]byte(g.NewVar(v).String()), &date2)
+
 	service.View().Render(ctx, model.View{
 		ContentType: "",
-		Data:        GetCurrentDate(),
+		Data:        date2,
 		Title:       "",
 	})
 	return
@@ -60,37 +77,54 @@ func (a *cIndex) Clock(ctx context.Context, req *v1.ClockReq) (res *v1.ClockRes,
 //视频播放页
 func (a *cIndex) Video(ctx context.Context, req *v1.VideoReq) (res *v1.VideoRes, err error) {
 
+	CurrentDate, _ := service.Setting().GetVar(ctx, "CurrentDate")
+	var date2 *v1.CurrentDate
+
+	json.Unmarshal([]byte(g.NewVar(CurrentDate).String()), &date2)
+
+	examDateStr, _ := service.Setting().GetVar(ctx, "ExamDate")
+	Playlist, _ := service.Setting().GetVar(ctx, "Playlist")
+
+	examDate, _ := time.Parse("2006-1-2", g.NewVar(examDateStr).String()) // 将考试日期字符串解析为 time.Time 类型
+	timeInt64, _ := strconv.ParseInt(date2.Timestampms, 10, 64)
+	currentTime := time.Unix(0, timeInt64*int64(time.Millisecond)) // 将当前时间戳转换为 time.Time 类型
+
+	DaysLeft := int(examDate.Sub(currentTime).Hours() / 24) // 计算距离考试还有几天
+
+	s := g.NewVar(Playlist).String()
+	var pd []v1.PlaylistData
+	if !Playlist.IsNil() && gstr.Contains(s, ",") {
+		s2 := strings.Split(s, ",")
+		for _, v := range s2 {
+			cpd := v1.PlaylistData{}
+			if gstr.Contains(v, "|") {
+				s3 := strings.Split(v, "|")
+				cpd.Url = s3[0]
+				cpd.Title = s3[1]
+			}
+			pd = append(pd, cpd)
+		}
+
+	} else if !Playlist.IsNil() {
+		if gstr.Contains(s, "|") {
+			cpd := v1.PlaylistData{}
+			s3 := strings.Split(s, "|")
+			cpd.Url = s3[0]
+			cpd.Title = s3[1]
+			pd = append(pd, cpd)
+		}
+	}
+
+	m := g.Map{
+		"CurrentDate": date2,
+		"Playlist":    pd,
+		"DaysLeft":    DaysLeft,
+	}
+
 	service.View().Render(ctx, model.View{
 		ContentType: "",
-		Data:        "",
+		Data:        m,
 		Title:       "",
 	})
 	return
-}
-
-//返回当前天时间
-func GetCurrentDate() string {
-	// 初始化全局变量
-	var timestamp string
-	resp, err := http.Get("http://api.m.taobao.com/rest/api3.do?api=mtop.common.getTimestamp")
-	if err != nil {
-		fmt.Println(err)
-		return "1677675248035"
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println(err)
-		return "1677675248035"
-	}
-
-	// 解析json获取t字段
-	j, err := gjson.DecodeToJson(string(body))
-
-	if err != nil {
-		fmt.Println(err)
-		return "1677675248035"
-	}
-	timestamp = j.GetString("data.t")
-	return timestamp
 }

@@ -29,20 +29,14 @@
 <body>
 	<div id="slideshow-container"></div>
 	<script>
+		
 		$(function() {
-			// var slides = [
-			// 	{ url: 'http://localhost:81/clock' },
-			// 	{ url: 'http://localhost:81/characters/show?page=1' },
-      //   { url: 'http://localhost:81/clock' },
-			// 	{ url: 'http://localhost:81/characters/show?page=2' },
-      //   { url: 'http://localhost:81/clock' },
-			// 	{ url: 'http://localhost:81/characters/show?page=3' },
-      //   { url: 'http://localhost:81/clock' },
-			// 	{ url: 'http://localhost:81/characters/show?page=4' }
-			// ];
 			var slides = [
-			    {url:'http://localhost:81/video'}
-			]
+				{{range $index, $item := .Data.HomepageUrl}}
+						{ url: '{{$item}}' },
+				{{end}}
+			];
+ 
 			var currentIndex = 0;
 			
 			function showNextSlide() {
@@ -53,26 +47,27 @@
 					var remainingTime = 0;
 					var countdownInterval = null;
 					$iframe.on('load', function() {
-						remainingTime = $iframe[0].contentWindow.slideDuration;
+						remainingTime = $iframe[0].contentWindow.slideDuration || 3;
 						$countdown.text(remainingTime);
-						countdownInterval = setInterval(function() {
-							remainingTime--;
-							$countdown.text(remainingTime);
-							if (remainingTime <= 0) {
-								clearInterval(countdownInterval);
-								$iframe.remove();
-								$countdown.remove();
-								currentIndex = (currentIndex + 1) % slides.length;
-								showNextSlide();
-							}
-						}, 1000);
-					});
-			 
-				
+						{{if gt (.Data.HomepageUrl|len) 1}}
+								countdownInterval = setInterval(function() {
+									remainingTime--;
+									$countdown.text(remainingTime);
+									if (remainingTime <= 0) {
+										clearInterval(countdownInterval);
+										$iframe.remove();
+										$countdown.remove();
+										currentIndex = (currentIndex + 1) % slides.length;
+										showNextSlide();
+									}
+								}, 1000);
+			      {{end}}
+					}); 
 			}
-			
 			showNextSlide();
 		});
 	</script>
+
+
 </body>
 </html>
